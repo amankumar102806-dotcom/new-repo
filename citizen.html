@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geomine • Surrounding Community Safety Portal (BHUMI VED)</title>
+  
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS for Safe Navigation & Geolocation -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Custom Citizen Stylesheet -->
+  <link rel="stylesheet" href="css/citizen.css">
+</head>
+<body>
+
+  <!-- ==================== 24x7 SOS TOP BANNER ==================== -->
+  <aside class="sos-banner">
+    <div class="sos-left">
+      <span class="sos-pulse-icon"></span>
+      <span>EMERGENCY DISASTER HOTLINES ACTIVE • DHANBAD DISTRICT</span>
+    </div>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <a href="tel:108" class="sos-dial-btn"><i class="fa-solid fa-truck-medical"></i> Ambulance: 108</a>
+      <a href="tel:1077" class="sos-dial-btn" style="background: #fbbf24; color: #78350f;"><i class="fa-solid fa-phone"></i> Control: 1077</a>
+      <a href="tel:112" class="sos-dial-btn" style="background: #38bdf8; color: #0c4a6e;"><i class="fa-solid fa-shield"></i> Police: 112</a>
+    </div>
+  </aside>
+
+  <!-- ==================== CITIZEN HEADER ==================== -->
+  <header class="citizen-header">
+    <a href="citizen.html" class="citizen-brand">
+      <div class="brand-icon" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
+        <i class="fa-solid fa-mountain-city"></i>
+      </div>
+      <div class="brand-meta">
+        <h1>Geomine • Community Portal</h1>
+        <span>Team BHUMI VED &bull; Public Safety, Evacuation Routes &amp; Incident Reporting</span>
+      </div>
+    </a>
+
+    <div class="header-right">
+      <button class="btn-auth-user" id="btn-user-profile">
+        <i class="fa-solid fa-circle-user"></i>
+        <span id="header-user-label">Citizen Login</span>
+      </button>
+
+      <a href="index.html" class="btn-toc-switch" title="Access Geomine Mission Control">
+        <i class="fa-solid fa-building-shield"></i>
+        <span>Geomine Mission Control</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ==================== TAB NAVIGATION ==================== -->
+  <nav class="tab-navigation">
+    <button class="tab-btn active" data-tab="tab-overview">
+      <i class="fa-solid fa-gauge-high"></i>
+      <span>Emergency Hub</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-safe">
+      <i class="fa-solid fa-shield-heart" style="color: #34d399;"></i>
+      <span>Mark Yourself Safe</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-casualty">
+      <i class="fa-solid fa-camera-retro" style="color: #f87171;"></i>
+      <span>Upload Casualty Photo/Video</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-missing">
+      <i class="fa-solid fa-person-circle-question" style="color: #fbbf24;"></i>
+      <span>Missing Person FIR</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-relief">
+      <i class="fa-solid fa-person-shelter" style="color: #38bdf8;"></i>
+      <span>Relief Shelters &amp; Alternate Routes</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-medical">
+      <i class="fa-solid fa-hospital" style="color: #c084fc;"></i>
+      <span>24x7 Ambulance &amp; Dispensaries</span>
+    </button>
+  </nav>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="citizen-main">
+
+    <!-- ========== TAB 1: EMERGENCY OVERVIEW / HERO ========== -->
+    <section class="tab-pane active" id="tab-overview">
+      <div class="hero-action-grid">
+        
+        <!-- Action 1: Mark Safe -->
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <div class="hero-card-icon safe">
+              <i class="fa-solid fa-shield-heart"></i>
+            </div>
+            <div>
+              <h3>I am Safe &amp; Evacuated</h3>
+              <span style="font-size: 0.72rem; color: #34d399;">District Safe Registry Check-In</span>
+            </div>
+          </div>
+          <p>Register yourself and your family members so authorities and loved ones know you are out of the danger zone.</p>
+          <button class="btn-card-action btn-safe" onclick="switchTab('tab-safe')">
+            <i class="fa-solid fa-check-circle"></i> Mark Myself Safe Now
+          </button>
+        </div>
+
+        <!-- Action 2: Report Casualty -->
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <div class="hero-card-icon casualty">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+              <h3>Report Casualty / Landslide</h3>
+              <span style="font-size: 0.72rem; color: #f87171;">Upload Photo &amp; Video of Incident</span>
+            </div>
+          </div>
+          <p>Provide live ground photos, video, and GPS coordinates to directly dispatch NDRF rescue units.</p>
+          <button class="btn-card-action btn-casualty" onclick="switchTab('tab-casualty')">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Upload Incident Media
+          </button>
+        </div>
+
+        <!-- Action 3: Missing Person -->
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <div class="hero-card-icon missing">
+              <i class="fa-solid fa-person-circle-exclamation"></i>
+            </div>
+            <div>
+              <h3>Register Missing Person FIR</h3>
+              <span style="font-size: 0.72rem; color: #fbbf24;">Formal Legal Complaint</span>
+            </div>
+          </div>
+          <p>Submit photo, Aadhaar, DOB, and physical details under legal declaration to mobilize search teams.</p>
+          <button class="btn-card-action btn-missing" onclick="switchTab('tab-missing')">
+            <i class="fa-solid fa-file-pen"></i> Register Missing FIR
+          </button>
+        </div>
+
+        <!-- Action 4: Relief Center & Alternate Route -->
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <div class="hero-card-icon relief">
+              <i class="fa-solid fa-route"></i>
+            </div>
+            <div>
+              <h3>Safe Shelter Navigation</h3>
+              <span style="font-size: 0.72rem; color: #38bdf8;">Alternate Bypass Routes</span>
+            </div>
+          </div>
+          <p>Find nearest relief shelter capacity, food supplies, and detour bypass if primary roads are damaged.</p>
+          <button class="btn-card-action btn-relief" onclick="switchTab('tab-relief')">
+            <i class="fa-solid fa-location-arrow"></i> View Safe Corridors
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Live Safe Registry Counter & Recent Evacuees -->
+      <div class="card-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <h2 class="section-heading">
+              <i class="fa-solid fa-users" style="color: #38bdf8;"></i>
+              <span>District Safe Citizens Registry</span>
+            </h2>
+            <p class="section-sub">Verified citizens marked safe across Dhanbad relief camps &amp; high ground havens.</p>
+          </div>
+          <div style="text-align: right;">
+            <span style="font-size: 1.8rem; font-weight: 800; color: #34d399;" id="stat-safe-total">2</span>
+            <span style="display: block; font-size: 0.72rem; color: var(--cit-text-muted);">Citizens Checked-In</span>
+          </div>
+        </div>
+
+        <div id="safe-citizens-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+          <!-- Loaded dynamically via citizen.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TAB 2: MARK YOURSELF SAFE ========== -->
+    <section class="tab-pane" id="tab-safe">
+      <div class="card-section">
+        <h2 class="section-heading">
+          <i class="fa-solid fa-shield-heart" style="color: #10b981;"></i>
+          <span>Mark Yourself &amp; Your Family Safe</span>
+        </h2>
+        <p class="section-sub">Your check-in is instantly registered with Dhanbad District Disaster Operations Center and NDRF Command.</p>
+
+        <form id="form-mark-safe">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Your Full Name *</label>
+              <input type="text" class="form-control" id="safe-name" placeholder="e.g. Rameshwar Mahato" required>
+            </div>
+            <div class="form-group">
+              <label>Mobile Contact Number *</label>
+              <input type="tel" class="form-control" id="safe-phone" placeholder="e.g. 9835123456" required>
+            </div>
+            <div class="form-group">
+              <label>Total Family Members with You</label>
+              <input type="number" class="form-control" id="safe-family-count" value="1" min="1" max="20" required>
+            </div>
+            <div class="form-group">
+              <label>Current Location / Relief Shelter *</label>
+              <select class="form-control" id="safe-location-select" required>
+                <option value="Digwadih Central Relief Camp">Digwadih Central Relief Camp</option>
+                <option value="Dhansar Municipal Sports Complex">Dhansar Municipal Sports Complex</option>
+                <option value="Tisra Secondary School Gymnasium">Tisra Secondary School Gymnasium</option>
+                <option value="Topchanchi High School Hall">Topchanchi High School Hall</option>
+                <option value="Self-Evacuated to High Ground Relative Home">Self-Evacuated to High Ground / Relative Home</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Emergency Notes / Health Needs (Optional)</label>
+            <textarea class="form-control" id="safe-notes" placeholder="e.g. Need baby food or insulin; evacuated safely from Baniahir Basti."></textarea>
+          </div>
+
+          <button type="submit" class="btn-card-action btn-safe" style="max-width: 280px; padding: 12px 24px;">
+            <i class="fa-solid fa-check"></i> Register as Safe
+          </button>
+        </form>
+
+        <!-- Safe Pass Container -->
+        <div id="safe-pass-result" style="display: none;"></div>
+      </div>
+    </section>
+
+    <!-- ========== TAB 3: UPLOAD CASUALTY & DAMAGE INCIDENT ========== -->
+    <section class="tab-pane" id="tab-casualty">
+      <div class="card-section">
+        <h2 class="section-heading">
+          <i class="fa-solid fa-camera" style="color: #ef4444;"></i>
+          <span>Report Landslide &amp; Casualty Incident</span>
+        </h2>
+        <p class="section-sub">Upload live photos/videos of the slope collapse, trapped individuals, or blocked roads. Authorities will receive your exact GPS coordinates and contact number to establish direct communication.</p>
+
+        <form id="form-casualty-report">
+          
+          <!-- Media Upload Dropzone -->
+          <div class="form-group">
+            <label>Upload Photo or Video of Incident Site *</label>
+            <div class="upload-dropzone" id="casualty-dropzone">
+              <i class="fa-solid fa-cloud-arrow-up dropzone-icon"></i>
+              <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 4px;">Tap to capture from camera or choose photo/video file</div>
+              <div style="font-size: 0.75rem; color: var(--cit-text-muted);">Supports JPG, PNG, MP4, WebM (Max 50MB)</div>
+              <input type="file" id="casualty-file-input" accept="image/*,video/*" style="display: none;">
+            </div>
+            <div class="preview-container" id="casualty-media-preview"></div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Incident Category *</label>
+              <select class="form-control" id="cas-category" required>
+                <option value="LANDSLIDE_CASUALTY">🚨 Slope Failure with Trapped Casualties</option>
+                <option value="ROAD_BLOCKED_DEBRIS">🚧 Road Blocked / Severed by Debris</option>
+                <option value="MINE_HIGHWALL_CRACK">⚠️ Overburden Highwall Tension Crack</option>
+                <option value="HOUSE_COLLAPSE">🏚️ Residential House / Structure Collapse</option>
+                <option value="FLOOD_SLURRY_INUNDATION">🌊 Slurry Runoff / Flash Flood</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Severity Level *</label>
+              <select class="form-control" id="cas-severity" required>
+                <option value="CRITICAL">🔴 Critical - Imminent Threat to Life</option>
+                <option value="HIGH" selected>🟠 High - Evacuation &amp; Clearance Urgently Needed</option>
+                <option value="MODERATE">🟡 Moderate - Property / Infrastructure Damage</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Estimated Injured Persons</label>
+              <input type="number" class="form-control" id="cas-injured" value="0" min="0">
+            </div>
+
+            <div class="form-group">
+              <label>Estimated Persons Trapped Under Debris</label>
+              <input type="number" class="form-control" id="cas-trapped" value="0" min="0">
+            </div>
+          </div>
+
+          <!-- Geolocation Tagging -->
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Incident Location Name / Landmark *</label>
+              <input type="text" class="form-control" id="cas-location-name" placeholder="e.g. Katras Link Bypass near Kujama pit gate" required>
+            </div>
+            <div class="form-group">
+              <label>GPS Coordinates (Latitude &amp; Longitude)</label>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" class="form-control" id="cas-gps-coords" placeholder="23.7441, 86.4150" value="23.7438, 86.4148">
+                <button type="button" class="btn-card-action" id="btn-detect-gps" style="width: auto; background: #0284c7; color: white; white-space: nowrap;">
+                  <i class="fa-solid fa-location-crosshairs"></i> Get GPS
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Detailed Incident Description *</label>
+            <textarea class="form-control" id="cas-description" placeholder="Describe the size of the landslide, damaged structures, sounds of moving rocks, or urgent rescue requirements..." required></textarea>
+          </div>
+
+          <!-- Reporter Contact Information for Live Call -->
+          <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 14px; margin: 16px 0;">
+            <div style="font-size: 0.82rem; font-weight: 700; color: #38bdf8; margin-bottom: 8px;">
+              <i class="fa-solid fa-headset"></i> Reporter Contact Details for Live Authority Call
+            </div>
+            <p style="font-size: 0.74rem; color: var(--cit-text-muted); margin-bottom: 12px;">
+              District Control Room officers and NDRF commanders may call your phone number immediately for a live video/audio SITREP.
+            </p>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Your Full Name *</label>
+                <input type="text" class="form-control" id="cas-reporter-name" placeholder="e.g. Sunil Soren" required>
+              </div>
+              <div class="form-group">
+                <label>Your Active Mobile Number *</label>
+                <input type="tel" class="form-control" id="cas-reporter-phone" placeholder="e.g. +91-94301-44552" required>
+              </div>
+              <div class="form-group">
+                <label>Alternate Mobile Number (Optional)</label>
+                <input type="tel" class="form-control" id="cas-reporter-alt-phone" placeholder="e.g. +91-98350-11223">
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-card-action btn-casualty" style="max-width: 320px; padding: 12px 24px;">
+            <i class="fa-solid fa-paper-plane"></i> Submit Incident &amp; Alert NDRF
+          </button>
+
+        </form>
+      </div>
+    </section>
+
+    <!-- ========== TAB 4: MISSING PERSON FIR REGISTRATION ========== -->
+    <section class="tab-pane" id="tab-missing">
+      <div class="card-section">
+        <h2 class="section-heading">
+          <i class="fa-solid fa-file-shield" style="color: #fbbf24;"></i>
+          <span>Official Missing Person FIR / Complaint Registration</span>
+        </h2>
+        <p class="section-sub">File a formal disaster missing person report. Registered FIRs are immediately routed to Dhanbad District Police, NDRF Search Squads, and Hospital Triage Counters.</p>
+
+        <form id="form-missing-person">
+          
+          <!-- Photo Upload -->
+          <div class="form-group">
+            <label>Upload Clear Photo of Missing Person *</label>
+            <div class="upload-dropzone" id="missing-photo-dropzone">
+              <i class="fa-solid fa-user-plus dropzone-icon"></i>
+              <div style="font-weight: 700; font-size: 0.95rem;">Select Photo of Missing Individual</div>
+              <div style="font-size: 0.75rem; color: var(--cit-text-muted);">Front-facing portrait preferred (JPG, PNG)</div>
+              <input type="file" id="missing-photo-input" accept="image/*" style="display: none;">
+            </div>
+            <div class="preview-container" id="missing-photo-preview"></div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Full Legal Name of Missing Person *</label>
+              <input type="text" class="form-control" id="mp-name" placeholder="e.g. Bikram Hansda" required>
+            </div>
+            <div class="form-group">
+              <label>Date of Birth (DOB) *</label>
+              <input type="date" class="form-control" id="mp-dob" required>
+            </div>
+            <div class="form-group">
+              <label>Age (Years) *</label>
+              <input type="number" class="form-control" id="mp-age" min="1" max="120" placeholder="e.g. 32" required>
+            </div>
+            <div class="form-group">
+              <label>Gender *</label>
+              <select class="form-control" id="mp-gender" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Missing Individual's Aadhaar Number (12 Digits) *</label>
+              <input type="text" class="form-control" id="mp-aadhaar" placeholder="XXXX-XXXX-XXXX (12 digits)" maxlength="14" required>
+            </div>
+            <div class="form-group">
+              <label>Last Seen Location / Mining Ward *</label>
+              <input type="text" class="form-control" id="mp-last-location" placeholder="e.g. Near Kujama Pit Overburden Toe" required>
+            </div>
+            <div class="form-group">
+              <label>Last Seen Time / Date *</label>
+              <input type="text" class="form-control" id="mp-last-time" placeholder="e.g. Today at 12:15 PM" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Physical Appearance, Clothing &amp; Identifying Marks *</label>
+            <textarea class="form-control" id="mp-description" placeholder="Height, build, clothing worn (e.g. Blue miner suit, yellow boots), scars, tattoos..." required></textarea>
+          </div>
+
+          <!-- Complainant Identity Details -->
+          <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--cit-border); border-radius: 8px; padding: 14px; margin: 16px 0;">
+            <div style="font-size: 0.82rem; font-weight: 700; color: white; margin-bottom: 8px;">
+              <i class="fa-solid fa-id-card"></i> Complainant (Person Registering Complaint) Details
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Complainant Full Name *</label>
+                <input type="text" class="form-control" id="complainant-name" placeholder="e.g. Shanti Hansda" required>
+              </div>
+              <div class="form-group">
+                <label>Relationship with Missing Person *</label>
+                <input type="text" class="form-control" id="complainant-relation" placeholder="e.g. Spouse / Brother / Father" required>
+              </div>
+              <div class="form-group">
+                <label>Complainant Active Phone *</label>
+                <input type="tel" class="form-control" id="complainant-phone" placeholder="e.g. +91-98352-77112" required>
+              </div>
+              <div class="form-group">
+                <label>Complainant Aadhaar Number *</label>
+                <input type="text" class="form-control" id="complainant-aadhaar" placeholder="XXXX-XXXX-XXXX" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== MANDATORY STATUTORY LEGAL DECLARATION ==================== -->
+          <div class="legal-warning-card">
+            <div class="legal-header">
+              <i class="fa-solid fa-scale-unbalanced-flip"></i>
+              <span>Statutory Legal Warning &amp; Declaration (Disaster Management Act &amp; IPC)</span>
+            </div>
+            <div class="legal-body">
+              <strong>NOTICE UNDER LAW:</strong> Under Section 54 of the Disaster Management Act, 2005 and Sections 182, 211, and 499 of the Indian Penal Code (IPC), filing a false, fraudulent, fictitious, or mischievous missing person complaint during an active disaster declaration is a serious non-bailable cognizable offense.
+              <br><br>
+              <strong>PENAL PROVISIONS:</strong> If this complaint is found to be false, fabricated, or filed for fun/prank purposes, the complainant shall immediately be liable for criminal prosecution resulting in <strong>MANDATORY IMPRISONMENT OF UP TO 5 YEARS</strong> and an <strong>IMMEDIATE PENALTY OF ₹10,00,000 (TEN LAKH RUPEES)</strong>.
+            </div>
+
+            <label class="legal-checkbox-label">
+              <input type="checkbox" id="legal-declaration-checkbox" required>
+              <span>
+                I, the complainant named above, hereby solemnly affirm and declare under oath that all details provided regarding the missing individual are true, accurate, and verified to the best of my knowledge. I fully understand that submitting false or prank information will attract immediate arrest, up to 5 years imprisonment, and a fine of ₹10,00,000 under legal prosecution.
+              </span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-card-action btn-missing" id="btn-submit-fir" style="max-width: 340px; padding: 12px 24px;">
+            <i class="fa-solid fa-stamp"></i> Register Legal Missing Person FIR
+          </button>
+
+        </form>
+      </div>
+    </section>
+
+    <!-- ========== TAB 5: RELIEF SHELTERS & ALTERNATE ROUTES ========== -->
+    <section class="tab-pane" id="tab-relief">
+      <div class="card-section">
+        <h2 class="section-heading">
+          <i class="fa-solid fa-person-shelter" style="color: #38bdf8;"></i>
+          <span>Relief Shelters, Capacities &amp; Safe Alternate Corridors</span>
+        </h2>
+        <p class="section-sub">Live shelter capacities, meal provisions, and real-time alternate detour routes if primary highways are severed by landslide debris.</p>
+
+        <!-- Dynamic Relief Shelters Grid -->
+        <div class="relief-grid" id="citizen-relief-grid">
+          <!-- Loaded dynamically via citizen.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TAB 6: 24x7 MEDICAL DIRECTORY & ALERTNESS ========== -->
+    <section class="tab-pane" id="tab-medical">
+      <div class="card-section">
+        <h2 class="section-heading">
+          <i class="fa-solid fa-hospital-user" style="color: #c084fc;"></i>
+          <span>24x7 Ambulance &amp; Dispensary Network (Anti-Stampede Alertness)</span>
+        </h2>
+        <p class="section-sub">Local hospitals and dispensaries are kept in constant automated alertness to prevent stampedes and triage delays.</p>
+
+        <div class="medical-directory-grid" id="citizen-medical-grid">
+          <!-- Loaded dynamically via citizen.js -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== CITIZEN AUTHENTICATION MODAL ==================== -->
+  <div class="modal-backdrop" id="modal-citizen-auth">
+    <div class="modal-card">
+      <div class="modal-card-header">
+        <h3><i class="fa-solid fa-user-lock" style="color: #38bdf8;"></i> Citizen Sign-In &amp; Registration</h3>
+        <button class="btn-dial-officer" style="background: transparent; color: white;" onclick="closeAuthModal()">&times;</button>
+      </div>
+      <div class="modal-card-body">
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <button class="btn-card-action" id="tab-login-btn" style="background: #0284c7; color: white;" onclick="setAuthTab('login')">Sign In</button>
+          <button class="btn-card-action" id="tab-reg-btn" style="background: var(--cit-bg-surface); color: var(--cit-text-muted);" onclick="setAuthTab('register')">Register New</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="form-auth-login">
+          <div class="form-group">
+            <label>Mobile Phone Number</label>
+            <input type="tel" class="form-control" id="login-phone" placeholder="e.g. 9876543210" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" id="login-pass" placeholder="Enter password" required>
+          </div>
+          <button type="submit" class="btn-card-action btn-safe" style="width: 100%; margin-top: 10px;">
+            <i class="fa-solid fa-right-to-bracket"></i> Sign In to Citizen Portal
+          </button>
+        </form>
+
+        <!-- Register Form -->
+        <form id="form-auth-register" style="display: none;">
+          <div class="form-group">
+            <label>Full Legal Name</label>
+            <input type="text" class="form-control" id="reg-name" placeholder="e.g. Aman Kumar" required>
+          </div>
+          <div class="form-group">
+            <label>Mobile Phone Number</label>
+            <input type="tel" class="form-control" id="reg-phone" placeholder="e.g. 9876543210" required>
+          </div>
+          <div class="form-group">
+            <label>Aadhaar Number (Optional)</label>
+            <input type="text" class="form-control" id="reg-aadhaar" placeholder="XXXX-XXXX-XXXX">
+          </div>
+          <div class="form-group">
+            <label>Create Password</label>
+            <input type="password" class="form-control" id="reg-pass" placeholder="Create secure password" required>
+          </div>
+          <button type="submit" class="btn-card-action btn-safe" style="width: 100%; margin-top: 10px;">
+            <i class="fa-solid fa-user-check"></i> Register Account
+          </button>
+        </form>
+
+        <div style="margin-top: 16px; text-align: center; font-size: 0.75rem; color: var(--cit-text-dim);">
+          Immediate Emergency? <a href="#" onclick="guestLogin()" style="color: #38bdf8; font-weight: bold;">Continue as Guest</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts: Leaflet & Citizen Portal Logic -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/data.js"></script>
+  <script src="js/citizen.js"></script>
+</body>
+</html>
